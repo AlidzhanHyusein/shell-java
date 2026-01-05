@@ -8,5 +8,7 @@ public class Main {
         String input = scanner.nextLine();
 
         System.out.println(input + ": command not found");
+
+        main(new String[0])
     }
 }
