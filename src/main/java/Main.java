@@ -41,7 +41,7 @@ public class Main {
                         File file = new File(dir,command);
 
                         if(file.exists() && file.isFile() && file.canExecute()){
-                            System.out.println(command + " is " + file.getAbsolutePath());
+                            System.out.println(arguments + " is " + file.getAbsolutePath());
                             return;
                         }
                     }
