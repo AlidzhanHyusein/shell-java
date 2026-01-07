@@ -72,8 +72,8 @@ public class Main {
 
                     File executable = null;
                     for (String dir : pathEnv.split(File.pathSeparator)) {
-                        File candidate = new File(dir + File.separator + command);
-                        if (candidate.exists() && candidate.isFile()) {
+                        File candidate = new File(dir, command);
+                        if (candidate.exists() && candidate.isFile() && candidate.canExecute()) {
                             executable = candidate;
                             break;
                         }
@@ -84,11 +84,16 @@ public class Main {
                         continue;
                     }
 
+                    // Build argv list
                     List<String> cmd = new ArrayList<>();
-                    cmd.add(executable.getAbsolutePath());
+                    cmd.add(command); // argv[0] MUST be command name
                     cmd.addAll(Arrays.asList(tokens).subList(1, tokens.length));
 
                     ProcessBuilder pb = new ProcessBuilder(cmd);
+
+                    // 🔑 IMPORTANT: run in executable's directory
+                    pb.directory(executable.getParentFile());
+
                     pb.inheritIO();
 
                     try {
@@ -97,6 +102,7 @@ public class Main {
                         System.err.println("Error executing command");
                     }
                 }
+
 
             }
         }
