@@ -18,11 +18,6 @@ public class Main {
             String[] tokens = input.split("\\s+");
             String command = tokens[0];
 
-
-            if(builtins.contains(command)){
-                System.out.println(command + " is a shell builtin");
-                continue;
-            }
             switch (command) {
                 case "exit" -> System.exit(0);
 
