@@ -62,6 +62,7 @@ public class Main {
                         System.out.println(target + ": not found");
                     }
                 }
+                case "pwd" -> System.out.println(System.getProperty("user.dir"));
 
                 default -> {
                     String pathEnv = System.getenv("PATH");
