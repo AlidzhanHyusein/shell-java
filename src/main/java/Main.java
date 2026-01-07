@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Set<String> builtins = Set.of("exit", "echo", "type");
+        Set<String> builtins = Set.of("exit", "echo", "type","pwd");
 
         while (true) {
             System.out.print("$ ");
@@ -18,6 +18,11 @@ public class Main {
             String[] tokens = input.split("\\s+");
             String command = tokens[0];
 
+
+            if(builtins.contains(command)){
+                System.out.println(command + " is a shell builtin");
+                continue;
+            }
             switch (command) {
                 case "exit" -> System.exit(0);
 
