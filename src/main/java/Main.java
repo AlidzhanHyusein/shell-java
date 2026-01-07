@@ -75,37 +75,36 @@ public class Main {
 
                 default -> {
                     String pathEnv = System.getenv("PATH");
-                    if(pathEnv == null || pathEnv.isEmpty()) {
-                        System.out.println(command + ": command not found");
+                    if (pathEnv == null || pathEnv.isEmpty()) {
+                        System.err.println(command + ": command not found");
                         continue;
                     }
+
                     File executable = null;
-
-                    for(String dir : pathEnv.split(File.pathSeparator)) {
-                        File candidate = new File(dir,command);
-
-                        if(candidate.exists() && candidate.isFile() && candidate.canExecute()) {
+                    for (String dir : pathEnv.split(File.pathSeparator)) {
+                        File candidate = new File(dir, command);
+                        if (candidate.exists() && candidate.isFile() && candidate.canExecute()) {
                             executable = candidate;
                             break;
                         }
                     }
 
-                    if(executable == null){
-                        System.out.println(command + ": command not found");
+                    if (executable == null) {
+                        System.err.println(command + ": command not found");
                         continue;
                     }
 
                     List<String> cmd = new ArrayList<>();
-                    cmd.add(executable.getAbsolutePath());
+                    cmd.add(executable.getAbsolutePath());  // IMPORTANT
                     cmd.addAll(Arrays.asList(tokens).subList(1, tokens.length));
 
-                    ProcessBuilder builder = new ProcessBuilder(cmd);
-                    builder.directory(executable.getParentFile());
+                    ProcessBuilder pb = new ProcessBuilder(cmd);
+                    pb.inheritIO();
 
-                    try{
-                        builder.start().waitFor();
-                    }catch(Exception e){
-                        System.out.println(e.getMessage());
+                    try {
+                        pb.start().waitFor();
+                    } catch (Exception e) {
+                        System.err.println("Error executing command");
                     }
                 }
 
