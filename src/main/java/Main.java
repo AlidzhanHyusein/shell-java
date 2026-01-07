@@ -84,14 +84,11 @@ public class Main {
                         continue;
                     }
 
-                    // Build argv list
                     List<String> cmd = new ArrayList<>();
-                    cmd.add(command); // argv[0] MUST be command name
+                    cmd.add(command);
                     cmd.addAll(Arrays.asList(tokens).subList(1, tokens.length));
 
                     ProcessBuilder pb = new ProcessBuilder(cmd);
-
-                    // 🔑 IMPORTANT: run in executable's directory
                     pb.directory(executable.getParentFile());
 
                     pb.inheritIO();
