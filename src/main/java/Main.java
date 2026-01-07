@@ -96,7 +96,7 @@ public class Main {
                     }
 
                     List<String> cmd = new ArrayList<>();
-                    cmd.add(command);
+                    cmd.add(executable.getAbsolutePath());
                     cmd.addAll(Arrays.asList(tokens).subList(1, tokens.length));
 
                     ProcessBuilder builder = new ProcessBuilder(cmd);
