@@ -64,12 +64,20 @@ public class Main {
                 }
                 case "pwd" -> System.out.println(System.getProperty("user.dir"));
                 case "cd" -> {
-                    File dir = new File(tokens[1]);
+                    File cwd = new File(System.getProperty("user.dir"));
+                    File dir;
+                    if(tokens[1].startsWith("./")){
+                        dir = new File(cwd, tokens[1].substring(2));
+                    } else if (tokens[1].startsWith("../")){
+                        dir = new File(cwd.getParentFile(), tokens[1].substring(3));
+                    } else {
+                        dir = new File(tokens[1]);
+                    }
 
-                    if(dir.exists() && dir.isDirectory()){
+                    if(dir.exists() && dir.isDirectory() && dir != null){
                         System.setProperty("user.dir", dir.getAbsolutePath());
                     } else {
-                        System.out.println("cd: " + dir.getAbsolutePath() + ": No such file or directory");
+                        System.err.println("cd: no such file or directory: " + tokens[1]);
                     }
                 }
 
